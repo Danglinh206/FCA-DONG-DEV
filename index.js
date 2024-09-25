@@ -148,22 +148,22 @@ try {
     let Number_Fca = ["AutoRestartMinutes","RestartMQTT_Minutes"];
     let Object_Fca = ["Stable_Version","AntiGetInfo", "CheckPointBypass", "AntiStuckAndMemoryLeak"];
     let All_Variable = Boolean_Fca.concat(String_Fca,Number_Fca,Object_Fca);
-    if (!global.Fca.Require.fs.existsSync(process.cwd() + '/main/json/configfca.json')) {
-        global.Fca.Require.fs.writeFileSync(process.cwd() + "/main/json/configfca.json", JSON.stringify(global.Fca.Data.ObjFastConfig, null, "\t"));
+    if (!global.Fca.Require.fs.existsSync(process.cwd() + '/configfca.json')) {
+        global.Fca.Require.fs.writeFileSync(process.cwd() + "/configfca.json", JSON.stringify(global.Fca.Data.ObjFastConfig, null, "\t"));
         process.exit(1);
     } try {
-    var Data_Setting = require(process.cwd() + "/main/json/configfca.json");
+    var Data_Setting = require(process.cwd() + "/configfca.json");
     } catch (e) {
     global.Fca.Require.logger.Error('Detect Your FastConfigFca Settings Invalid!, Carry out default restoration');
-    global.Fca.Require.fs.writeFileSync(process.cwd() + "/main/json/configfca.json", JSON.stringify(global.Fca.Data.ObjFastConfig, null, "\t"));     
+    global.Fca.Require.fs.writeFileSync(process.cwd() + "/configfca.json", JSON.stringify(global.Fca.Data.ObjFastConfig, null, "\t"));     
     process.exit(1)
 }
-    if (global.Fca.Require.fs.existsSync(process.cwd() + '/main/json/configfca.json')) {
+    if (global.Fca.Require.fs.existsSync(process.cwd() + '/configfca.json')) {
         
         for (let i of All_Variable) {
             if (Data_Setting[i] == undefined) {
                 Data_Setting[i] = global.Fca.Data.ObjFastConfig[i];
-                global.Fca.Require.fs.writeFileSync(process.cwd() + "/main/json/configfca.json", JSON.stringify(Data_Setting, null, "\t"));
+                global.Fca.Require.fs.writeFileSync(process.cwd() + "/configfca.json", JSON.stringify(Data_Setting, null, "\t"));
             }
             else continue; 
         } //Check Variable
@@ -184,7 +184,7 @@ try {
             else if (Object_Fca.includes(i)) {
                 if (global.Fca.Require.utils.getType(Data_Setting[i]) != "Object") {
                     Data_Setting[i] = global.Fca.Data.ObjFastConfig[i];
-                    global.Fca.Require.fs.writeFileSync(process.cwd() + "/main/json/configfca.json", JSON.stringify(Data_Setting, null, "\t"));
+                    global.Fca.Require.fs.writeFileSync(process.cwd() + "/configfca.json", JSON.stringify(Data_Setting, null, "\t"));
                 }
                 else continue;
             }
@@ -196,7 +196,7 @@ try {
             for (let i of Mission.Data_Path) {
                 if (Data_Setting[Mission.Main_Path] == undefined) {
                     Data_Setting[Mission.Main_Path] = global.Fca.Data.ObjFastConfig[Mission.Main_Path];
-                    global.Fca.Require.fs.writeFileSync(process.cwd() + "/main/json/configfca.json", JSON.stringify(Data_Setting, null, "\t"));      
+                    global.Fca.Require.fs.writeFileSync(process.cwd() + "/configfca.json", JSON.stringify(Data_Setting, null, "\t"));      
                 }
                 const User_Data = (utils.getData_Path(Data_Setting[Mission.Main_Path], i, 0))
                 const User_Data_Type = utils.getType(User_Data);
@@ -204,7 +204,7 @@ try {
                     const Mission_Path = User_Data == 0 ? i : i.slice(0, User_Data); 
                     const Mission_Obj = utils.getData_Path(global.Fca.Data.ObjFastConfig[Mission.Main_Path], Mission_Path, 0);
                     Data_Setting[Mission.Main_Path] = utils.setData_Path(Data_Setting[Mission.Main_Path], Mission_Path, Mission_Obj)
-                    global.Fca.Require.fs.writeFileSync(process.cwd() + "/main/json/configfca.json", JSON.stringify(Data_Setting, null, "\t"));      
+                    global.Fca.Require.fs.writeFileSync(process.cwd() + "/configfca.json", JSON.stringify(Data_Setting, null, "\t"));      
                 }
             }
         }
